@@ -1,0 +1,3 @@
+ALTER TABLE `%SQL_PREFIX%trips` ADD `start_date` date NOT NULL;
+ALTER TABLE `%SQL_PREFIX%trips` ADD `end_date` date DEFAULT NULL;
+ALTER TABLE `%SQL_PREFIX%trips` CHANGE `date` `date` DATETIME NOT NULL;
