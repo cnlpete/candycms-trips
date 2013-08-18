@@ -395,12 +395,13 @@ class Trips extends \CandyCMS\core\Models\Main {
     if (isset($this->_aRequest[$this->_sController]['title'])) {
       $oQuery = $this->_oDb->prepare("UPDATE " . SQL_PREFIX . "trip_markers
                                       SET `title` = :title,
-                                          `content` = :content
+                                          `content` = :content,
+                                          `date` = :date
                                       WHERE id = :id
                                       LIMIT 1");
 
       $oQuery->bindParam('id', $iId, PDO::PARAM_INT);
-      foreach (array('title', 'content') as $sInput)
+      foreach (array('title', 'content', 'date') as $sInput)
         $oQuery->bindParam(
                 $sInput,
                 Helper::formatInput($this->_aRequest[$this->_sController][$sInput], false),

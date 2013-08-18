@@ -140,6 +140,7 @@ class Trips extends \CandyCMS\Core\Controllers\Main {
     if (isset($this->_aRequest[$this->_sController]['title'])) {
       $this->_setError('title');
       $this->_setError('content');
+      $this->_setError('date');
     }
     else {
       $this->_setError('lat');

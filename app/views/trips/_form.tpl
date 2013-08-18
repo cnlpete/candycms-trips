@@ -176,20 +176,22 @@
       {/if}
 
       var markers = { };
-      function addMarker(latLng, id, title, content) {
+      function addMarker(latLng, id, title, date, content) {
         var m = new L.Marker(latLng);
         m.id = id;
         drawnItems.addLayer(m);
         m.bindPopup( '<form data-id="' + id + '">' +
           '<input class="js-title" type="text" value="' + title + '" />' +
+          '<input class="js-date" type="text" value="' + date + '" />' +
           '<textarea class="js-content">' + content + '</textarea>' +
           '<input class="btn btn-primary js-submit" type="submit" value="{$lang.global.update.update}" /></form>' );
         markers[id] = m;
       }
-      function editMarker(id, title, content) {
+      function editMarker(id, title, date, content) {
         markers[id].unbindPopup();
         markers[id].bindPopup( '<form>' +
           '<input class="js-title" type="text" value="' + title + '" />' +
+          '<input class="js-date" type="text" value="' + date + '" />' +
           '<textarea class="js-content">' + content + '</textarea>' +
           '<input class="btn btn-primary js-submit" type="submit" value="{$lang.global.update.update}" /></form>' );
       }
@@ -198,7 +200,7 @@
       }
 
       {foreach $tripmarkers as $tm}
-        addMarker(new L.LatLng( {$tm.lat},{$tm.long} ), {$tm.id}, "{$tm.title|escape}", "{$tm.content|replace:"\n":'\n'|strip}");
+        addMarker(new L.LatLng( {$tm.lat},{$tm.long} ), {$tm.id}, "{$tm.title|escape}", "{$tm.date|date_format:"%Y-%m-%d"}", "{$tm.content|replace:"\n":'\n'|strip}");
       {/foreach}
 
       map.on('draw:created', function (e) {
@@ -215,7 +217,7 @@
                           'content': 'mein inhalt' } };
           $.post('/{$_REQUEST.controller}/{$_REQUEST.id}/createmarker.json', data, function(result) {
             if (result.success) {
-              addMarker(latlng, result.id, data.trips.title, data.trips.content);
+              addMarker(latlng, result.id, data.trips.title, '{$smarty.now|date_format:"%Y-%m-%d"}', data.trips.content);
             }
             else {
               showFlashMessage('error', lang.save_error);
@@ -324,12 +326,13 @@
 
           var data = { 'trips': {
                           'marker_id': $(this).data('id'),
+                          'date': $(this).find('input.js-date').val(),
                           'title': $(this).find('input.js-title').val(),
                           'content': $(this).find('textarea.js-content').val() } };
           $.post('/{$_REQUEST.controller}/{$_REQUEST.id}/updatemarker.json', data, function(result) {
             if (result.success) {
               map.closePopup();
-              editMarker(data.trips.marker_id, data.trips.title, data.trips.content);
+              editMarker(data.trips.marker_id, data.trips.title, data.trips.date, data.trips.content);
               showFlashMessage('success', lang.save_successful);
             }
             else {
