@@ -90,8 +90,13 @@
     }
 
     {foreach $trippolylines as $tp}
-      map.fitBounds(addPolyline({$tp.latlngs}));
+      {if $tp@first}
+        var bounds = addPolyline({$tp.latlngs});
+      {else}
+        bounds.extend(addPolyline({$tp.latlngs}));
+      {/if}
     {/foreach}
+    map.fitBounds(bounds);
 
     /* zoom the map to some arbitrary point if no info is given yet */
     {if !$trippolylines}

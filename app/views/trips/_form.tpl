@@ -166,8 +166,13 @@
       }
 
       {foreach $trippolylines as $tp}
-        map.fitBounds(addPolyline({$tp.id}, {$tp.latlngs}));
+        {if $tp@first}
+          var bounds = addPolyline({$tp.id}, {$tp.latlngs});
+        {else}
+          bounds.extend(addPolyline({$tp.id}, {$tp.latlngs}));
+        {/if}
       {/foreach}
+      map.fitBounds(bounds);
 
       /* zoom the map to the polyline */
       {if !$trippolylines}
