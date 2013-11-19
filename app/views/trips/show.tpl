@@ -1,8 +1,9 @@
 {strip}
-  <script src="{$_PATH.js.app}/leaflet.js"></script>
-  <script src="{$_PATH.js.app}/leaflet.iconlabel.js"></script>
-  <script src="{$_PATH.js.app}/leaflet.providers.js"></script>
-  <script src="{$_PATH.js.app}/leaflet.markercluster.js"></script>
+  <script type='text/javascript' src="{$_PATH.js.app}/leaflet{$_SYSTEM.compress_files_suffix}.js"></script>
+  <script type='text/javascript' src="{$_PATH.js.app}/leaflet.iconlabel{$_SYSTEM.compress_files_suffix}.js"></script>
+  <script type='text/javascript' src="{$_PATH.js.app}/leaflet.providers{$_SYSTEM.compress_files_suffix}.js"></script>
+  <script type='text/javascript' src="{$_PATH.js.app}/leaflet.markercluster{$_SYSTEM.compress_files_suffix}.js"></script>
+  <script type='text/javascript' src="{$_PATH.js.app}/leaflet.control.fullscreen{$_SYSTEM.compress_files_suffix}.js"></script>
   {if $_SESSION.user.role >= 3}
     <p class='center'>
       <a href='/{$_REQUEST.controller}/create'>
@@ -48,7 +49,8 @@
   <script>
     L.Icon.Default.imagePath = '{$_PATH.img.app}/leaflet/';
     var map = new L.Map('map');
-    
+    map.addControl(new L.Control.FullScreen());
+
     var baseLayers = ["Stamen.Watercolor", "OpenStreetMap.DE"],
         overlays = ["OpenWeatherMap.Rain", "OpenWeatherMap.RainClassic", "OpenWeatherMap.Temperature"];
 

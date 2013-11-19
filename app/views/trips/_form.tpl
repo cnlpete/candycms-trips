@@ -132,13 +132,15 @@
         <div id='map' style="height: 400px;"></div>
       </div>
     </div>
-    <script src="{$_PATH.js.app}/leaflet{$_SYSTEM.compress_files_suffix}.js"></script>
-    <script src="{$_PATH.js.app}/leaflet.draw{$_SYSTEM.compress_files_suffix}.js"></script>
-    <script src="{$_PATH.js.app}/leaflet.providers{$_SYSTEM.compress_files_suffix}.js"></script>
+    <script type='text/javascript' src="{$_PATH.js.app}/leaflet{$_SYSTEM.compress_files_suffix}.js"></script>
+    <script type='text/javascript' src="{$_PATH.js.app}/leaflet.draw{$_SYSTEM.compress_files_suffix}.js"></script>
+    <script type='text/javascript' src="{$_PATH.js.app}/leaflet.providers{$_SYSTEM.compress_files_suffix}.js"></script>
+    <script type='text/javascript' src="{$_PATH.js.app}/leaflet.control.fullscreen{$_SYSTEM.compress_files_suffix}.js"></script>
     <script>
       L.Icon.Default.imagePath = '{$_PATH.img.app}/leaflet/';
 
       var map = new L.Map('map');
+      map.addControl(new L.Control.FullScreen());
       var baseLayers = ["Stamen.Watercolor", "OpenStreetMap.DE"];
       var layerControl = L.control.layers.provided(baseLayers,[]).addTo(map);
 
